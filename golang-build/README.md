@@ -1,17 +1,20 @@
 # Go Builder
 
-Github Action to cross-compile Go project binaries for multiple platforms in a single run.
+Github Action to cross-compile the `midiserver` project binaries for multiple platforms in a single run.
 
-Uses `golang:1.13` Docker image with `CGO_ENABLED=0` flag.
+Uses `golang` Docker image with `CGO_ENABLED=0` flag.
 
 ## Usage
 
-Create a workflow file `.github/workflows/push.yml` with the content below:
+Create a workflow file `.github/workflows/releaser.yml` with the content below:
 
 ```yml
-name: Build Go binaries
+name: Release midiserver binaries
 
-on: push
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,7 +24,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Make binaries
-        uses: sosedoff/actions/golang-build@master
+        uses: ut-proj/midiserver-releaser/golang-build@master
 ```
 
 Basic workflow configuration will compile binaries for the following platforms:
